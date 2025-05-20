@@ -71,18 +71,15 @@ class Task(GenerateIDMixin):
     description = models.TextField("Описание", blank=True)
     created_at = models.DateTimeField("Дата создания", auto_now_add=True)
     due_date = models.DateTimeField("Срок исполнения")
-    notified = models.BooleanField(
-        "Уведомление отправлено", default=False,
-        help_text="Ставить True после отправки уведомления через Celery"
-    )
-    # привязка к категории и «телеграм-ID» пользователя
+    notified = models.BooleanField("Уведомление отправлено", default=False)
     category = models.ForeignKey(
-        Category, on_delete=models.PROTECT,
-        related_name="tasks", verbose_name="Категория"
+        Category, on_delete=models.PROTECT, related_name="tasks", verbose_name="Категория"
     )
-    telegram_user_id = models.BigIntegerField(
-        "Telegram User ID",
-        help_text="Числовой идентификатор пользователя в Telegram"
+    telegram_user_id = models.BigIntegerField("Telegram User ID")
+    # Новое поле для хранения ID отложенной Celery-таски
+    scheduled_task_id = models.CharField(
+        max_length=255, blank=True, null=True,
+        help_text="ID отложенной задачи в Celery (для отмены/переноса)"
     )
 
     class Meta:
@@ -90,3 +87,4 @@ class Task(GenerateIDMixin):
 
     def __str__(self):
         return f"{self.title} ({self.category})"
+
