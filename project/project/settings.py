@@ -27,7 +27,12 @@ SECRET_KEY = 'django-insecure-eclz8i8i-b8fs28epolvrn*nx8*mlzxl!89c@z+y10s381ai(c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'web',          # <— имя контейнера без порта
+    # 'web:8000',   # необязательно, порт можно опустить
+]
 
 
 # Application definition
@@ -117,11 +122,14 @@ USE_I18N = True
 
 USE_TZ = True
 
-CELERY_BROKER_URL = "redis://localhost:6379/0"
-CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
+CELERY_BROKER_URL = "redis://redis:6379/0"
+CELERY_RESULT_BACKEND = "redis://redis:6379/1"
 
-NOTIFICATION_API_HOST = "localhost"
+NOTIFICATION_API_HOST = "bot"
 NOTIFICATION_API_PORT = 8001
+
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_ENABLE_UTC = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

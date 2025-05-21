@@ -1,11 +1,13 @@
 import aiohttp
 
-BASE_URL = "http://localhost:8000/api"
+BASE_URL = "http://web:8000/api"
 
 async def get_tasks(telegram_user_id):
     async with aiohttp.ClientSession() as session:
         async with session.get(f"{BASE_URL}/tasks/", params={"telegram_user_id": telegram_user_id}) as resp:
-            return await resp.json()
+            ans = await resp.json()
+            print(ans)
+            return ans
 
 async def create_task(data):
     async with aiohttp.ClientSession() as session:

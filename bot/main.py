@@ -4,8 +4,11 @@ from aiogram.types import Message as TgMessage
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import uvicorn
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-API_TOKEN = "7915580570:AAG-EGOkSK2tS1t_NN1eMnHdcOSFtL7Bbzg"
+API_TOKEN = os.getenv('API_TOKEN')
 
 # Initialize Telegram bot and dispatcher
 bot = Bot(token=API_TOKEN)
